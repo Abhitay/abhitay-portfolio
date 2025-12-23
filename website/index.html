@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abhitay Shinde | Product Data Scientist</title>
+
+  <link rel="stylesheet" href="styles/main.css">
+  
+  <style>
+    /* ---------- PAGE-SPECIFIC STYLES: index.html ---------- */
+    
+    /* ---------- EXPERIENCE ---------- */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .item {
+      margin-bottom: 24px;
+    }
+
+    .item span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contact a {
+      display: block;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="left">Abhitay Shinde</div>
+    <div class="right">
+      <a href="#projects">Highlights</a>
+      <a href="#experience">Background</a>
+      <a href="#contact">Contact</a>
+      <a class="btn" href="resume.pdf" target="_blank">Download Resume</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Product Data Scientist</h1>
+    <p>
+      M.S. Data Science (Columbia University).  
+      I build experimentation systems, causal models, and GenAI-powered analytics
+      to drive real product decisions.
+    </p>
+  </section>
+
+  <!-- PROJECT HIGHLIGHTS -->
+  <section id="projects">
+    <h2>Highlighted Projects</h2>
+
+    <div class="cards">
+      <div class="card">
+        <span class="tag">Causal Inference · GenAI</span>
+        <h3>Feature Impact & Experimentation Platform</h3>
+        <p>
+          Built an internal-style system to measure true causal impact of product
+          features using DiD, PSM, and LLM-powered experiment summaries.
+        </p>
+        <a href="feature-impact.html" target="_blank">View Project →</a>
+      </div>
+
+      <div class="card">
+        <span class="tag">Growth · Optimization</span>
+        <h3>Growth Allocation Engine</h3>
+        <p>
+          Designed uplift models and optimization pipelines to allocate marketing
+          budget based on incremental ROI and long-term LTV.
+        </p>
+        <a href="growth-allocation.html" target="_blank">View Project →</a>
+      </div>
+
+      <div class="card">
+        <span class="tag">LLMs · Product Analytics</span>
+        <h3>AI Product Insights Copilot</h3>
+        <p>
+          An LLM-powered analytics assistant that answers product questions,
+          runs SQL, detects anomalies, and suggests actions.
+        </p>
+        <a href="ai-insights-copilot.html" target="_blank">View Project →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <h2>Background</h2>
+
+    <div class="two-col">
+      <div>
+        <h3>Professional</h3>
+
+        <div class="item">
+          <strong>Data Science Researcher — Julius Baer</strong><br/>
+          <span>GenAI Personalization · Experimentation</span>
+        </div>
+
+        <div class="item">
+          <strong>Data Scientist Apprentice — TD Bank</strong><br/>
+          <span>Fraud, Credit Risk, Causal Inference</span>
+        </div>
+
+        <div class="item">
+          <strong>Quantitative Research Apprentice — Ask2AI</strong><br/>
+          <span>Growth, Uplift Modeling, Optimization</span>
+        </div>
+      </div>
+
+      <div>
+        <h3>Research</h3>
+
+        <div class="item">
+          <strong>IEEE Publications (Lead Author)</strong><br/>
+          <span>Risk Modeling, Predictive Maintenance, NLP to SQL</span>
+        </div>
+
+        <div class="item">
+          <strong>Teaching Assistant — Columbia University</strong><br/>
+          <span>Algorithms, ML, Experimentation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <h2>Contact</h2>
+    <p>Always happy to talk product, data, or research.</p>
+
+    <a href="mailto:aps2249@columbia.edu">aps2249@columbia.edu</a>
+    <a href="https://www.linkedin.com/in/abhitay" target="_blank">LinkedIn</a>
+    <a href="https://github.com/Abhitay" target="_blank">GitHub</a>
+  </section>
+
+  <footer>
+    © 2025 Abhitay Shinde
+  </footer>
+
+</body>
+</html>

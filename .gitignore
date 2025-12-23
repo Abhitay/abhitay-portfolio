@@ -1,0 +1,5 @@
+.env
+events.csv
+users.csv
+.DS_Store
+.vscode

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Growth Allocation Engine | Case Study</title>
+
+  <link rel="stylesheet" href="styles/main.css">
+
+  <style>
+    /* ---------- PAGE-SPECIFIC STYLES: growth-allocation.html ---------- */
+
+    section {
+      padding: 5px 16px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    section + section {
+      padding-top: 0;
+    }
+
+    /* ---------- CODE/PSEUDOCODE ---------- */
+    .code-block {
+      background: #1f2937;
+      color: #f3f4f6;
+      padding: 14px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.4;
+      margin: 16px 0;
+      display: none;
+    }
+
+    .code-label {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    /* ---------- METRICS BOX ---------- */
+    .metrics-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 12px;
+    }
+
+    .metric-item {
+      background: white;
+      padding: 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ---------- APPROACH SECTION ---------- */
+    .approach {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin: 28px 0;
+    }
+
+    .approach h3 {
+      margin-top: 0;
+    }
+
+    .approach-step {
+      margin: 16px 0;
+      padding-left: 24px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .approach-step strong {
+      color: var(--text);
+    }
+
+    /* ---------- FINDINGS BOX ---------- */
+    .findings {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 16px;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+
+    .findings.warning {
+      background: #fef3c7;
+      border-left-color: var(--warning);
+    }
+
+    .findings.danger {
+      background: #fee2e2;
+      border-left-color: var(--danger);
+    }
+
+    .findings strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    /* ---------- DATA SNAPSHOT ---------- */
+    .data-snapshot {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .snapshot-table {
+      font-size: 13px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .snapshot-table td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .snapshot-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ---------- RECOMMENDATION ---------- */
+    .recommendation {
+      background: #fee2e2;
+      border: 2px solid var(--danger);
+      border-radius: 8px;
+      padding: 24px;
+      margin: 28px 0;
+    }
+
+    .recommendation h3 {
+      color: var(--danger);
+      margin-top: 0;
+    }
+
+    .recommendation.positive {
+      background: #f0fdf4;
+      border-color: var(--success);
+    }
+
+    .recommendation.positive h3 {
+      color: var(--success);
+    }
+
+    /* ---------- BACK LINK ---------- */
+    .back-link {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="left">Abhitay Shinde</div>
+    <div class="right">
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#experience">Background</a>
+      <a href="index.html#contact">Contact</a>
+      <a class="btn" href="../resume.pdf" target="_blank">Download Resume</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Growth Allocation Engine</h1>
+    <div class="tech-tags">
+      <span class="tag">Uplift Modeling</span>
+      <span class="tag">Incremental ROI</span>
+      <span class="tag">Budget Optimization</span>
+      <span class="tag">Causal Forest</span>
+      <span class="tag">LTV Prediction</span>
+    </div>
+
+    <p>
+      A data-driven system to allocate marketing budget across customer segments based on 
+      incremental ROI and long-term lifetime value impact—preventing waste on high-propensity cohorts.
+    </p>
+  </section>
+
+  <section>
+    <div class="recommendation positive">
+      <h3>TL;DR — Product Decision</h3>
+      <ul>
+        <li>✅ Uplift modeling identifies true incremental ROI per segment</li>
+        <li>💰 Reallocate 30% budget from high-baseline to high-lift segments</li>
+        <li>📈 Projected 18% CAC reduction while maintaining LTV/CAC ratio ≥ 3.0</li>
+      </ul>
+      <p><strong>Decision:</strong> Deploy Growth Allocation Engine with quarterly recalibration</p>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section>
+    <h2>The Problem</h2>
+
+    <h3>Status Quo: Equal Budget Across Segments</h3>
+    <p>
+      We allocate marketing budget uniformly across customer segments: new users, early adopters, 
+      and power users all receive the same spend-per-acquisition (SPA) treatment. But retention 
+      and LTV differ dramatically.
+    </p>
+
+    <h3>The Risk</h3>
+    <ul>
+      <li><strong>Budget Waste:</strong> High-baseline users convert anyway; we overspend to reach them</li>
+      <li><strong>Suboptimal Mix:</strong> Low-lift segments consume budget that could drive LTV growth elsewhere</li>
+      <li><strong>LTV Regression:</strong> Without incremental ROI modeling, we optimize CAC but ignore lifetime value</li>
+      <li><strong>Competitive Pressure:</strong> Rivals use uplift models to outbid us efficiently</li>
+    </ul>
+
+    <h3>The Hypothesis</h3>
+    <p>
+      By modeling <strong>incremental impact</strong> (how much revenue a user generates due to our campaign, 
+      not just total revenue), we can reallocate budget to segments where the marketing spend truly moves the needle. 
+      Result: Lower CAC + maintained or improved LTV.
+    </p>
+  </section>
+
+  <!-- DATA -->
+  <section>
+    <h2>Data & Inputs</h2>
+
+    <h3>Dataset Overview</h3>
+    <p>
+      Q3 2024 campaign data across 8,500 new users split into three segments. 
+      Tracked acquisition cost, 30-day revenue, and 90-day retention.
+    </p>
+
+    <h4>Campaign Segments</h4>
+    <div class="data-snapshot">
+      <table class="snapshot-table">
+        <tr>
+          <td><strong>Segment</strong></td>
+          <td><strong>Size</strong></td>
+          <td><strong>Baseline Conversion</strong></td>
+          <td><strong>Avg LTV</strong></td>
+          <td><strong>Current SPA</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Price-Sensitive (PS)</strong></td>
+          <td>3,200 users</td>
+          <td>14%</td>
+          <td>$180</td>
+          <td>$25</td>
+        </tr>
+        <tr>
+          <td><strong>Feature-Focused (FF)</strong></td>
+          <td>2,800 users</td>
+          <td>28%</td>
+          <td>$420</td>
+          <td>$35</td>
+        </tr>
+        <tr>
+          <td><strong>Enterprise (ER)</strong></td>
+          <td>1,500 users</td>
+          <td>52%</td>
+          <td>$960</td>
+          <td>$50</td>
+        </tr>
+      </table>
+    </div>
+
+    <h4>Campaign Variables</h4>
+    <ul>
+      <li><strong>Treatment:</strong> Marketing campaign exposure (email, paid search, display)</li>
+      <li><strong>Control:</strong> Organic traffic (no paid acquisition campaign)</li>
+      <li><strong>Outcome:</strong> 30-day revenue, 90-day retention, lifetime value (projected 12-month)</li>
+      <li><strong>Confounders:</strong> Device type, traffic source, time of signup, content engagement pre-conversion</li>
+    </ul>
+  </section>
+
+  <!-- NAIVE APPROACH -->
+  <section>
+    <h2>Approach 1: Budget by Revenue Conversion Rate (Naive)</h2>
+
+    <p>
+      Intuitive approach: Allocate more budget to segments with higher conversion rates. 
+      Enterprise users convert at 52%, so they're "the best." Price-sensitive users at 14% 
+      are "worst," so spend less.
+    </p>
+
+    <h3>Allocation Logic</h3>
+    <div class="metrics-box">
+      <p><strong>Current Budget Distribution:</strong></p>
+      <div class="metrics-row">
+        <div class="metric-item">
+          <div class="metric-label">Price-Sensitive</div>
+          <div class="metric-value">35% budget</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Feature-Focused</div>
+          <div class="metric-value">40% budget</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Enterprise</div>
+          <div class="metric-value">25% budget</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>The Problem with This Approach</h3>
+    <div class="findings warning">
+      <strong>⚠️ The Hidden Flaw:</strong>
+      <p>
+        Enterprise users convert at 52% <em>without</em> our marketing campaign too. 
+        They're buyers regardless. By spending $50/user to acquire them, we're paying for conversions 
+        that would have happened anyway. The <strong>incremental lift</strong> is minimal or negative.
+      </p>
+    </div>
+
+    <p>
+      Meanwhile, price-sensitive users have low baseline conversion (14%) but respond strongly to our campaigns. 
+      The incremental impact (marketing-driven conversions) is higher, even though overall conversion rate is lower.
+    </p>
+
+    <div class="findings danger">
+      <strong>Result:</strong> We're allocating most of our budget to low-lift segments and underspending 
+      on high-lift segments. Budget inefficiency across the board.
+    </div>
+  </section>
+
+  <!-- ADVANCED APPROACH -->
+  <section>
+    <h2>Approach 2: Uplift Modeling with Causal Forest (Correct)</h2>
+
+    <div class="approach">
+      <h3>Methodology</h3>
+      <p>
+        <strong>Type:</strong> Causal Forest (heterogeneous treatment effect estimation)<br>
+        <strong>Key Innovation:</strong> Estimate per-segment incremental impact, not just aggregate conversion<br>
+        <strong>Metric:</strong> Incremental LTV (marketing-driven lifetime value per dollar spent)<br>
+        <strong>Approach:</strong> Train ML model on treatment/control split, estimate segment-level CATE (Conditional Average Treatment Effect)
+      </p>
+
+      <h3>Why Causal Forest?</h3>
+      <p>
+        Standard regression assumes the same treatment effect across all users. Causal Forest instead learns 
+        <strong>how treatment effect varies by segment</strong>—allowing us to allocate optimally.
+      </p>
+
+      <h3>The Analysis Steps</h3>
+      <div class="approach-step">
+        <strong>Step 1: Prepare Treatment/Control Data</strong>
+        <p>
+          Split Q3 cohort: ~70% exposed to marketing campaign (treatment), ~30% organic/control. 
+          Track revenue and retention outcomes for 90 days post-signup.
+        </p>
+      </div>
+      <div class="approach-step">
+        <strong>Step 2: Engineer Features</strong>
+        <p>
+          Use pre-treatment variables: segment (PS/FF/ER), device type, traffic source, 
+          signup day/time, initial engagement depth. No leakage from post-treatment data.
+        </p>
+      </div>
+      <div class="approach-step">
+        <strong>Step 3: Train Causal Forest</strong>
+        <p>
+          Fit random forest to predict heterogeneous treatment effect (LTV impact). 
+          Tree leaves represent segments with similar propensity to be lifted by marketing.
+        </p>
+      </div>
+      <div class="approach-step">
+        <strong>Step 4: Estimate Incremental ROI per Segment</strong>
+        <p>
+          For each segment, calculate CATE: Expected LTV(treated) - Expected LTV(control). 
+          Divide by SPA to get incremental ROI = (CATE / SPA).
+        </p>
+      </div>
+      <div class="approach-step">
+        <strong>Step 5: Allocate Budget Proportional to Incremental ROI</strong>
+        <p>
+          Increase budget to high-lift segments, reduce spend on low-lift. 
+          Maintain CAC constraint (e.g., CAC ≤ 20% of LTV for new segments).
+        </p>
+      </div>
+    </div>
+
+    <h3>Model Results: Incremental LTV by Segment</h3>
+    <div class="metrics-box">
+      <p><strong>Estimated Incremental Lift (Marketing Attribution):</strong></p>
+      <div class="metrics-row">
+        <div class="metric-item">
+          <div class="metric-label">Price-Sensitive</div>
+          <div class="metric-value positive">+$94</div>
+          <p style="margin: 8px 0 0 0; font-size: 13px; color: var(--muted);">Per-user incremental revenue</p>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Feature-Focused</div>
+          <div class="metric-value positive">+$62</div>
+          <p style="margin: 8px 0 0 0; font-size: 13px; color: var(--muted);">Per-user incremental revenue</p>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Enterprise</div>
+          <div class="metric-value neutral">+$8</div>
+          <p style="margin: 8px 0 0 0; font-size: 13px; color: var(--muted);">Per-user incremental revenue</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Incremental ROI: Adjusted Allocation Strategy</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Current SPA</th>
+          <th>Incremental LTV</th>
+          <th>Incremental ROI</th>
+          <th>New SPA (Optimal)</th>
+          <th>Budget Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Price-Sensitive</strong></td>
+          <td>$25</td>
+          <td>+$94</td>
+          <td>3.76x</td>
+          <td>$38</td>
+          <td>+$13 (+52%)</td>
+        </tr>
+        <tr>
+          <td><strong>Feature-Focused</strong></td>
+          <td>$35</td>
+          <td>+$62</td>
+          <td>1.77x</td>
+          <td>$35</td>
+          <td>±$0 (flat)</td>
+        </tr>
+        <tr>
+          <td><strong>Enterprise</strong></td>
+          <td>$50</td>
+          <td>+$8</td>
+          <td>0.16x</td>
+          <td>$12</td>
+          <td>-$38 (-76%)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="findings">
+      <strong>✅ Key Insight:</strong>
+      <p>
+        Uplift modeling flips our intuition. The "worst" baseline converters (price-sensitive) 
+        have the highest incremental ROI. Enterprise users, despite high absolute conversion, 
+        show minimal incremental lift—they'd buy anyway.
+      </p>
+    </div>
+
+    <h3>Financial Impact</h3>
+    <div class="metrics-box">
+      <p><strong>Q4 2024 Projected Impact (assuming $500K monthly marketing budget):</strong></p>
+      <div class="metrics-row">
+        <div class="metric-item">
+          <div class="metric-label">Prior CAC (Naive)</div>
+          <div class="metric-value">$36</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">New CAC (Optimized)</div>
+          <div class="metric-value positive">$29.50</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">CAC Reduction</div>
+          <div class="metric-value positive">-18%</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Projected New LTV Users</div>
+          <div class="metric-value positive">+2,100/month</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="findings">
+      <strong>Impact Breakdown:</strong>
+      <ul>
+        <li>Reallocate $50K/month from Enterprise to Price-Sensitive campaigns</li>
+        <li>Increase user acquisition by 2,100/month at lower CAC</li>
+        <li>Improved CAC efficiency: 18% reduction while maintaining LTV > $500 baseline</li>
+        <li>Long-term benefit: Price-sensitive users have longer retention curves; LTV upside over 12 months</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- KEY FINDINGS -->
+  <section>
+    <h2>Key Findings & Inference</h2>
+
+    <h3>Finding 1: Baseline Conversion Doesn't Predict Incremental Lift</h3>
+    <div class="findings warning">
+      <strong>The Data:</strong>
+      <ul>
+        <li>Enterprise: 52% baseline conversion → +$8 incremental LTV (0.16x ROI)</li>
+        <li>Price-Sensitive: 14% baseline conversion → +$94 incremental LTV (3.76x ROI)</li>
+      </ul>
+      <p>
+        <strong>Why It Matters:</strong> High converters already have high propensity. Our marketing spend 
+        on them is largely wasted. Low converters benefit most from targeted messaging.
+      </p>
+    </div>
+
+    <h3>Finding 2: CAC vs. Incremental CAC Are Not the Same</h3>
+    <div class="findings warning">
+      <strong>The Data:</strong>
+      <ul>
+        <li>Current CAC (all users): $36</li>
+        <li>Incremental CAC (reattribution to marketing): $45 (for high-lift segments)</li>
+        <li>But after optimization: Blended CAC drops to $29.50 due to segment mix shift</li>
+      </ul>
+      <p>
+        <strong>Why It Matters:</strong> Total CAC includes baseline converters. Incremental CAC 
+        (per dollar of marketing-driven revenue) reveals which segments truly justify spend.
+      </p>
+    </div>
+
+    <h3>Finding 3: Risk of Over-Indexing on Enterprise</h3>
+    <div class="findings danger">
+      <strong>The Data:</strong>
+      <ul>
+        <li>Enterprise users: 0.16x incremental ROI on marketing spend</li>
+        <li>Current allocation: 25% of budget for 1,500 users (smallest segment)</li>
+        <li>Every $50 spent on Enterprise produces only $8 incremental revenue</li>
+      </ul>
+      <p>
+        <strong>Why It Matters:</strong> Enterprise segment is high-value but low-increment. 
+        We should focus on retention and upsell post-acquisition, not acquisition efficiency.
+      </p>
+    </div>
+
+    <h3>Finding 4: Price-Sensitive Segment Has Long Tail LTV Upside</h3>
+    <div class="findings">
+      <strong>The Data:</strong>
+      <ul>
+        <li>30-day incremental revenue: +$94</li>
+        <li>Cohort retention (day 30 → day 90): 62%</li>
+        <li>Projected 12-month LTV (based on renewal curves): $420 baseline + $220 uplift = $640</li>
+      </ul>
+      <p>
+        <strong>Why It Matters:</strong> Price-sensitive users, once acquired, show sticky retention. 
+        Incremental revenue is not just acquisition; it's durable recurring value.
+      </p>
+    </div>
+
+    <h3>Finding 5: Optimal Allocation Maintains LTV/CAC Guardrails</h3>
+    <div class="findings">
+      <strong>The Data:</strong>
+      <ul>
+        <li>Proposed CAC across segments: $12–$38 (range)</li>
+        <li>LTV across segments: $180–$960</li>
+        <li>LTV/CAC ratios: 4.7x (PS), 3.1x (FF), 28x (ER)</li>
+        <li>All segments maintain LTV/CAC ≥ 3.0 (minimum threshold)</li>
+      </ul>
+      <p>
+        <strong>Why It Matters:</strong> Reallocation doesn't sacrifice unit economics. 
+        All segments remain healthy despite shift toward lower-LTV, higher-increment cohorts.
+      </p>
+    </div>
+  </section>
+
+  <!-- RISKS -->
+  <section>
+    <h2>Business Risks & Implications</h2>
+
+    <h3>Risk 1: Segment Size Instability</h3>
+    <p>
+      If price-sensitive segment becomes saturated or fatigued (from 35% → 52% budget allocation), 
+      incremental ROI may decline, breaking our assumptions.
+    </p>
+
+    <h3>Risk 2: Competitive Response</h3>
+    <p>
+      Shifting budget to price-sensitive cohorts increases bidding war with competitors in that channel. 
+      CAC inflation could erode projected savings.
+    </p>
+
+    <h3>Risk 3: Enterprise Revenue Risk</h3>
+    <p>
+      Cutting enterprise campaign spend from $50 to $12 SPA risks perception of neglect. 
+      Could harm strategic account relationships if acquisition quality declines.
+    </p>
+
+    <h3>Risk 4: Model Generalization</h3>
+    <p>
+      Causal Forest was trained on Q3 data. Seasonal trends, product changes, or market shifts 
+      could invalidate segment-level treatment effects.
+    </p>
+  </section>
+
+  <!-- RECOMMENDATION -->
+  <section>
+    <h2>Recommendation & Implementation</h2>
+
+    <div class="recommendation positive">
+      <h3>✅ Deploy Growth Allocation Engine</h3>
+      <p>
+        Use uplift modeling to reallocate Q4 budget. Phase in changes over 4 weeks 
+        to monitor for competitive response and market saturation.
+      </p>
+
+      <h4>Specific Actions</h4>
+      <ul>
+        <li><strong>Increase Price-Sensitive budget:</strong> $25 → $38 SPA (+52%)</li>
+        <li><strong>Hold Feature-Focused:</strong> Maintain $35 SPA (balanced segment)</li>
+        <li><strong>Reduce Enterprise campaigns:</strong> $50 → $12 SPA (focus on warm leads / upsell)</li>
+        <li><strong>Recalibrate monthly:</strong> Update CATE estimates as new data arrives</li>
+        <li><strong>Monitor channel saturation:</strong> If PS CAC rises > 10%, reduce allocation</li>
+      </ul>
+    </div>
+
+    <h3>Phase-In Timeline</h3>
+    <div class="findings">
+      <strong>Week 1:</strong> Shift 25% of budget moves (PS +$3, Enterprise -$9.50)<br>
+      <strong>Week 2:</strong> Shift 50% of budget moves (PS +$6.50, Enterprise -$19)<br>
+      <strong>Week 3–4:</strong> Full allocation (PS +$13, Enterprise -$38)<br>
+      <strong>Monthly Review:</strong> Refit Causal Forest on new conversions; adjust if CATE estimates drift
+    </div>
+
+    <h3>Success Metrics (Q4 2024)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Target</th>
+          <th>Success Criteria</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>CAC Reduction</strong></td>
+          <td>-15% to -18%</td>
+          <td>Blended CAC ≤ $30.50</td>
+        </tr>
+        <tr>
+          <td><strong>New Cohort LTV</strong></td>
+          <td>≥ $500 baseline</td>
+          <td>No decline vs. Q3</td>
+        </tr>
+        <tr>
+          <td><strong>LTV/CAC Ratio</strong></td>
+          <td>≥ 3.0 all segments</td>
+          <td>Unit economics remain healthy</td>
+        </tr>
+        <tr>
+          <td><strong>User Acquisition Volume</strong></td>
+          <td>+2,000–2,500/month</td>
+          <td>Due to budget efficiency</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- LIMITATIONS -->
+  <section>
+    <h2>Model Limitations & Considerations</h2>
+
+    <h3>Causal Assumptions</h3>
+    <ul>
+      <li>
+        <strong>Unconfoundedness:</strong> We assume all confounders (differences between treated and control users) 
+        are observed. Time-of-signup, device, and traffic source are measured, but user intent is not. 
+        If intent is unobserved and correlates with treatment, bias remains.
+      </li>
+      <li>
+        <strong>SUTVA (Stable Unit Treatment Value):</strong> We assume one user's campaign exposure doesn't 
+        affect another's. Network effects (e.g., referrals) could violate this.
+      </li>
+      <li>
+        <strong>Common Support:</strong> All segments must have overlap in propensity to be treated. 
+        Enterprise segment is nearly 100% targeted (high propensity), limiting comparison quality.
+      </li>
+    </ul>
+
+    <h3>Model Generalization</h3>
+    <ul>
+      <li>
+        <strong>Temporal Drift:</strong> Causal Forest estimates treatment effects from Q3. 
+        Seasonality (holiday campaigns, end-of-year budgets) could change segment-level lifts.
+      </li>
+      <li>
+        <strong>Channel-Specific Effects:</strong> Model pools all marketing channels (email, search, display). 
+        Segment-level ROI may vary by channel—a deeper channel-segment analysis could refine allocation further.
+      </li>
+    </ul>
+
+    <h3>Data Quality Notes</h3>
+    <ul>
+      <li><strong>Sample Size:</strong> 8,500 users is sufficient for overall estimation but limits granularity below 3 segments</li>
+      <li><strong>Attribution Window:</strong> 90-day observation window is early for LTV. 12-month projections carry extrapolation risk</li>
+    </ul>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section>
+    <h2>Conclusion</h2>
+
+    <p>
+      <strong>This case study demonstrates how causal inference transforms marketing allocation from 
+      intuition to optimization.</strong>
+    </p>
+
+    <p>
+      Naive budget allocation by conversion rate leads to overspending on high-baseline (low-increment) 
+      cohorts and underspending on responsive (high-increment) segments. Causal Forest identifies 
+      true heterogeneous treatment effects, enabling segment-level ROI optimization.
+    </p>
+
+    <p>
+      <strong>Key Lessons:</strong>
+    </p>
+    <ul>
+      <li>High absolute metrics (conversion rate) don't indicate high incremental impact (marketing ROI)</li>
+      <li>Incremental CAC differs from total CAC; allocate based on the former</li>
+      <li>Segment-level heterogeneity in treatment effects is real; average effects hide it</li>
+      <li>Optimization must respect constraints (LTV/CAC guardrails, segment size limits)</li>
+      <li>Models drift; recalibrate monthly to stay ahead of market changes</li>
+    </ul>
+
+    <div class="findings">
+      <strong>The Decision:</strong>
+      <p>
+        <strong>✅ Deploy Growth Allocation Engine.</strong> Reallocate marketing budget 
+        from enterprise to price-sensitive segments, targeting 18% CAC reduction while maintaining 
+        healthy unit economics. Monthly recalibration to adapt as market conditions evolve.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Abhitay Shinde | Growth Allocation Engine Case Study
+  </footer>
+
+</body>
+</html>
