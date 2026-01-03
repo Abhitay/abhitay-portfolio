@@ -1142,14 +1142,23 @@ li {
   border-radius: 999px;
   background: #e0e7ff;
   color: #1e3a8a;
+  margin-bottom: 4px;
+}
+
+.read-time {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
   margin-bottom: 10px;
+  margin-left: 6px;
 }
 
 .tech-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 12px 0 20px 0;
+  margin: 12px 0 px 0;
 }
 
 .tech-tags .tag {
@@ -1421,6 +1430,13 @@ section > *:last-child:not(.tldr):not(.recommendation) {
   background: #fef3c7;
   padding: 2px 5px;
   border-radius: 4px;
+}
+
+.experience-card strong.course-label {
+  background: none !important;
+  padding: 0 !important;
+  font-weight: 700 !important;
+}
 }
 
 /* ---------- RESEARCH PUBLICATIONS REDESIGN ---------- */
